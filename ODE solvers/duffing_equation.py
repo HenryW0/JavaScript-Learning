@@ -12,7 +12,7 @@ def duffing(x, t):
     dxdt = [v, gamma * np.cos(omega*t) - (delta * v) + p - (p**3)]
     return dxdt
 
-x0 = [0.3, 0.4]
+x0 = [-.2, -.5]
 t = np.linspace(0, 50, 1001)
 
 sol = odeint(duffing, x0, t, args=())
@@ -21,5 +21,10 @@ plt.plot(t, sol[:, 0], 'b', label='y')
 plt.plot(t, sol[:, 1], 'g', label='y dot')
 plt.legend(loc='best')
 plt.xlabel('t')
+plt.grid()
+plt.show()
+
+plt.plot(sol[:,0], sol[:,1])
+plt.title("y vs y dot")
 plt.grid()
 plt.show()
