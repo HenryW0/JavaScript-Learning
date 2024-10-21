@@ -12,7 +12,7 @@ def duffing(x, t):
     dxdt = [v, gamma * np.cos(omega*t) - (delta * v) + p - (p**3)]
     return dxdt
 
-x0 = [-.2, -.5]
+x0 = [7, -0.8]
 t = np.linspace(0, 50, 1001)
 
 sol = odeint(duffing, x0, t, args=())
