@@ -17,7 +17,7 @@ B = np.array([0, 0, 0, K/T]).reshape(-1, 1) #Matrix for control inputs
 #K_m = np.array([1, 0, 6.6, 10]) #K matrix, different than K motor constant
 #u is no longer equal to 0 since we have a control input
 
-poles = np.array([-1, -2, -3, -4])
+poles = np.array([-2, -4, -6, -8])
 placement = place_poles(A, B, poles)
 K_m = placement.gain_matrix
 #print(K_m)
@@ -31,8 +31,8 @@ def ball_beam(x, t):
     dxdt = [v, (5*g)/7 * (r/L) * np.sin(theta) - (5/7) * ((L/2) - z) * (r/L)**2 * (omega)**2 * (np.cos(theta)**2), omega, (-omega/T) + ((K*u)/T)]
     return dxdt
 
-x0 = [0.1, 0.1, 30 * np.pi/180, 0]
-t = np.linspace(0, 20, 1001)
+x0 = [0.05, -0.22, 40 * np.pi/180, 0.4]
+t = np.linspace(0, 10, 1001)
 
 sol = odeint(ball_beam, x0, t, args=())
 
@@ -42,7 +42,7 @@ if np.any(abs(sol[:, 0]) >= 0.19):
 if np.any(abs(sol[:, 2]) >= np.deg2rad(60)):
     print("Servo angle out of operation range")
 
-plt.title(f'Initial Conditions: {x0}')
+plt.title(f'Initial Conditions: {[round(i, 3) for i in x0]}')
 plt.plot(t, sol[:, 0], 'b', label='z')
 plt.plot(t, sol[:, 1], 'g', label='z dot')
 plt.plot(t, sol[:, 2], 'r', label = 'theta')
@@ -54,7 +54,7 @@ plt.xlabel('t (seconds)')
 plt.grid()
 plt.show()
 
-plt.plot(sol[:,0], sol[:,1])
-plt.title("z vs z dot")
+plt.plot(sol[:,0], (180/np.pi) * sol[:,2])
+plt.title("z vs theta")
 plt.grid()
 plt.show()
