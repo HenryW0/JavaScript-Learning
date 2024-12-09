@@ -13,8 +13,8 @@ A = np.array([[0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1], [0, 0, 0, 0]]) #System m
 B = np.array([0, 0, 0, 1]).reshape(-1, 1) #Matrix for control inputs
 #print(B, np.shape(B))
 
-Q = np.diag([10, 1, 1, 1]) #Increase weight importance of position 
-R = np.array([[1]]) #Control penalty
+Q = np.diag([2, 10, 1, 5]) #State Weight/Importance Matrix
+R = np.array([[0.01]]) #Control Cost Matrix, only 1 by 1 since there is a single control input
 
 K_m = -1 * lqr(A, B, Q, R)[0][0]
 #print(K_m)
@@ -38,7 +38,8 @@ def ball_beam(x, t):
     dxdt = [v, (5*g)/7 * (r/L) * np.sin(theta) - (5/7) * ((L/2) - z) * (r/L)**2 * (omega)**2 * (np.cos(theta)**2), omega, (-omega/T) + ((K*u)/T)]
     return dxdt
 
-x0 = [0.05, -0.22, 40 * np.pi/180, 0.4]
+#x0 = [0.05, -0.22, 40 * np.pi/180, 0.4]
+x0 = [0.15, -0.30, 50 * np.pi/180, 0.5]
 t = np.linspace(0, 15, 1001)
 
 sol = odeint(ball_beam, x0, t, args=())
