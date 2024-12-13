@@ -28,6 +28,7 @@ def ball_beam(x, t):
     return dxdt
 
 x0 = [0.15, -0.42, 50 * np.pi/180, 0]
+#x0 = [0.15, -0.30, 50 * np.pi/180, -0.5]
 t = np.linspace(0, 10, 1001)
 
 sol = odeint(ball_beam, x0, t, args=())

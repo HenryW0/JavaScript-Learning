@@ -38,8 +38,8 @@ def ball_beam(x, t):
     dxdt = [v, (5*g)/7 * (r/L) * np.sin(theta) - (5/7) * ((L/2) - z) * (r/L)**2 * (omega)**2 * (np.cos(theta)**2), omega, (-omega/T) + ((K*u)/T)]
     return dxdt
 
-#x0 = [0.05, -0.22, 40 * np.pi/180, 0.4]
-x0 = [0.15, -0.30, 50 * np.pi/180, 0.5]
+x0 = [0.15, -0.42, 50 * np.pi/180, 0]
+#x0 = [0.15, -0.30, 50 * np.pi/180, -0.5]
 t = np.linspace(0, 15, 1001)
 
 sol = odeint(ball_beam, x0, t, args=())
@@ -51,10 +51,10 @@ if np.any(abs(sol[:, 2]) >= np.deg2rad(60)):
     print("Servo angle out of operation range")
 
 plt.title(f'Initial Conditions: {[round(i, 3) for i in x0]}')
-plt.plot(t, sol[:, 0], 'b', label='z')
-plt.plot(t, sol[:, 1], 'g', label='z dot')
-plt.plot(t, sol[:, 2], 'r', label = 'theta')
-plt.plot(t, sol[:, 3], color = 'magenta', label = 'theta dot')
+plt.plot(t, sol[:, 0], 'b-', label='z')
+plt.plot(t, sol[:, 1], 'g--', label='z dot')
+plt.plot(t, sol[:, 2], 'r-.', label = 'theta')
+plt.plot(t, sol[:, 3], ':', color = 'magenta', label = 'theta dot')
 
 plt.legend(loc='best')
 plt.ylabel('Units dependent on state variable')
@@ -64,5 +64,7 @@ plt.show()
 
 plt.plot(sol[:,0], (180/np.pi) * sol[:,2])
 plt.title("z vs theta")
+plt.xlabel('Z (position) in Meters')
+plt.ylabel('Theta (angle) in Degrees')
 plt.grid()
 plt.show()
